@@ -124,6 +124,31 @@ public class LogIn extends AppCompatActivity {
 
     }
 
+    public void LogIn(View view) {
+        String textEmail = editTextLoginEmail.getText().toString();
+        String textPwd = editTextLoginPwd.getText().toString();
+
+        if(TextUtils.isEmpty(textEmail)){
+            Toast.makeText(LogIn.this, "Please enter your email", Toast.LENGTH_LONG).show();
+            editTextLoginEmail.setError("Email is required");
+            editTextLoginEmail.requestFocus();
+
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(textEmail).matches()){
+            Toast.makeText(LogIn.this, "The email is incorrect", Toast.LENGTH_LONG).show();
+            editTextLoginEmail.setError("Valid email is required");
+            editTextLoginEmail.requestFocus();
+
+        } else if(TextUtils.isEmpty(textPwd)){
+            Toast.makeText(LogIn.this, "Please enter your password", Toast.LENGTH_LONG).show();
+            editTextLoginPwd.setError("Password is required");
+            editTextLoginPwd.requestFocus();
+
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
+            loginUser(textEmail , textPwd);
+        }
+    }
+
     private void loginUser(String email, String pwd) {
         authProfile.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
